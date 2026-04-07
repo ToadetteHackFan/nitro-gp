@@ -505,7 +505,7 @@ enum PageId {
     PAGE_REGISTERING_FRIEND             = 0xA5, //DONE
     PAGE_REGISTER_FRIEND                = 0xA6, //DONE
     PAGE_GHOST_MANAGER                  = 0xA7, //DONE
-    PAGE_COURSE_RANKING_GRAPH      = 0xA8, //DONE
+    PAGE_COURSE_RANKING_GRAPH           = 0xA8, //DONE
     PAGE_COMPETITION_GHOST_SCATTER_PLOT = 0xA9, //DONE
     PAGE_AA                             = 0xAA,
     PAGE_MKCHANNEL_TOP_MENU             = 0xAB,

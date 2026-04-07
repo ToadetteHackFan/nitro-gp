@@ -53,10 +53,10 @@ void ExpFroom::OnResume() {
 }
 
 void ExpFroom::OnActivate() {
-    ExpWFCModeSel::ClearModeContexts();
     System::sInstance->netMgr.region = 0x36B;
     FriendRoom::OnActivate();
 }
+
 void ExpFroom::ExtOnButtonSelect(PushButton& button, u32 hudSlotId) {
     if(button.buttonId == 5) {
         u32 bmgId = BMG_SETTINGS_BOTTOM + 1;

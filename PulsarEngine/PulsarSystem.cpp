@@ -119,7 +119,7 @@ void System::InitSettings(const u16* totalTrophyCount) const {
 
 void System::UpdateContext() {
     const RacedataSettings& racedataSettings = Racedata::sInstance->menusScenario.settings;
-    this->ottMgr.Reset();
+    //this->ottMgr.Reset();
     const Settings::Mgr& settings = Settings::Mgr::Get();
     bool isCT = true;
     bool isHAW = false;
@@ -136,9 +136,10 @@ void System::UpdateContext() {
 
 
     bool is200 = racedataSettings.engineClass == CC_100 && this->info.Has200cc();
-    bool isFeather = this->info.HasFeather();
+    bool isFeather = U16_FREE_ROAM == 0x1;
     bool isUMTs = this->info.HasUMTs();
     bool isMegaTC = this->info.HasMegaTC();
+    bool isItemRain = Settings::Mgr::sInstance->GetSettingValue(Settings::SETTINGSTYPE_HOST, SETTINGHOST_ITEM_RAIN) == 1;
     u32 newContext = 0;
     if(sceneId != SCENE_ID_GLOBE && controller->connectionState != RKNet::CONNECTIONSTATE_SHUTDOWN) {
         switch(controller->roomType) {
@@ -156,6 +157,7 @@ void System::UpdateContext() {
                 isMiiHeads = newContext & (1 << PULSAR_MIIHEADS);
                 isRegs = newContext & (1 << PULSAR_REGS);
                 isRegsOnly = newContext & (1 << PULSAR_REGSONLY);
+                isItemRain = newContext & (1 << PULSAR_ITEM_RAIN);
                 if(isOTT) {
                     isUMTs &= newContext & (1 << PULSAR_UMTS);
                     isFeather &= newContext & (1 << PULSAR_FEATHER);
@@ -178,7 +180,7 @@ void System::UpdateContext() {
     
     u32 newContextValue = (isCT << PULSAR_CT) | (isHAW << PULSAR_HAW) | (isMiiHeads << PULSAR_MIIHEADS) | (isRegs << PULSAR_REGS) | (isRegsOnly << PULSAR_REGSONLY);
     if(isCT) { //contexts that should only exist when CTs are on
-        newContextValue |= (is200 << PULSAR_200) | (isFeather << PULSAR_FEATHER) | (isUMTs << PULSAR_UMTS) | (isMegaTC << PULSAR_MEGATC) | (isOTT << PULSAR_MODE_OTT) | (isKO << PULSAR_MODE_KO);
+        newContextValue |= (is200 << PULSAR_200) | (isFeather << PULSAR_FEATHER) | (isUMTs << PULSAR_UMTS) | (isMegaTC << PULSAR_MEGATC) | (isOTT << PULSAR_MODE_OTT) | (isKO << PULSAR_MODE_KO) | (isItemRain << PULSAR_ITEM_RAIN);
     }
 
     this->context = newContextValue | preserved;
@@ -268,5 +270,23 @@ const char System::CommonAssets[] = "/CommonAssets.szs";
 const char System::breff[] = "/Effect/Pulsar.breff";
 const char System::breft[] = "/Effect/Pulsar.breft";
 const char* System::ttModeFolders[] ={ "150", "200", "150F", "200F" };
+
+//Dekorify NTSC-K
+kmRegionWrite32(0x8087E1F9, 0x2E737A73, 'K');
+kmRegionWrite16(0x8087E1FD, 0x00000000, 'K');
+kmRegionWrite16(0x8087E8B6, 0x00000000, 'K');
+kmRegionWrite32(0x8088247D, 0x6B616E6A, 'K');
+kmRegionWrite32(0x80882481, 0x695F666F, 'K');
+kmRegionWrite16(0x80882485, 0x00006E74, 'K');
+
+void SetItemRainGameMode() {
+    System::sInstance->UpdateContext();
+    const SectionId sectionMode = SectionMgr::sInstance->curSection->sectionId;
+    if(sectionMode >= 0x3F && sectionMode <= 0x43) ItemRainEnabled = false;
+    if(RKNet::Controller::sInstance->roomType == RKNet::ROOMTYPE_NONE) return;
+    ItemRainEnabled = false;
+    if(System::sInstance->IsContext(PULSAR_ITEM_RAIN) && (RKNet::Controller::sInstance->roomType == RKNet::ROOMTYPE_FROOM_HOST || RKNet::Controller::sInstance->roomType == RKNet::ROOMTYPE_FROOM_NONHOST)) ItemRainEnabled = true;
+}
+static PageLoadHook ItemRainUpdater(SetItemRainGameMode);
 
 }//namespace Pulsar

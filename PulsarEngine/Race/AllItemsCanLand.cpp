@@ -66,6 +66,6 @@ kmWritePointer(0x808b54d0, AllMegasCanLand);
 kmWritePointer(0x808b54f4, AllPOWsCanLand);
 kmWritePointer(0x808b5500, AllGoldensCanLand);
 kmWritePointer(0x808b550c, AllBulletsCanLand);
-//kmWritePointer(0x808b54e8, AllFeathersCanLand); Already done in Pulsar
+kmWritePointer(0x808b54e8, AllFeathersCanLand);
 } // namespace Race
 } // namespace Pulsar

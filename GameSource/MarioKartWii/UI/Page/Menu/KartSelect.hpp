@@ -98,7 +98,6 @@ public:
     UIControl* CreateExternalControl(u32 id) override; //0x84 80845148
     UIControl* CreateControl(u32 id) override; //0x88 80845150
     void SetButtonHandlers(PushButton& pushButton) override; //0x8C 808454b4
-
     LayoutUIControl* GetExternalControl(u32 type, u8 row, u8 column); //0 = kart name, 1 = one column of buttonmachine (such as only bike), 2 = all buttonmachine, always inlined 80847094
     ButtonMachine* GetButtonMachineById(u8 buttonId); //808471c4
     void InitButtonMachine(ButtonMachine& machine, u8 buttonId); //80847344
@@ -110,7 +109,6 @@ public:
     static void func_80847590(); //same, but without the random 
     static Page* GetPageById(PageId id = PAGE_KART_SELECT); //808447cc only ever used with id = veh select so it's here
     static KartId kartUIOrderToIDArray[36]; //808ad678
-
     void OnButtonClick(PushButton& button, u32 hudSlotId); //80846c1c
     void OnButtonDeselect(PushButton& button, u32 hudSlotId); //80846fbc
     void OnBackPress(u32 hudSlotId); //80846fc0

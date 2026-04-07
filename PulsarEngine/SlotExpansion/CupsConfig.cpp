@@ -21,7 +21,7 @@ winningCourse(PULSARID_NONE), selectedCourse(PULSARID_FIRSTREG), lastSelectedCup
         lastSelectedCup = PULSARCUPID_FIRSTCT;
         selectedCourse = PULSARID_FIRSTCT;
     }
-    hasRegs = regsMode > 0;
+    hasRegs = true;
 
     u32 count = rawCups.ctsCupCount;
     if (count & 1) {
@@ -140,7 +140,7 @@ void CupsConfig::ToggleCTs(bool enabled) {
     }
     else {
         count = definedCTsCupCount;
-        hasRegs = regsMode > 0;
+        hasRegs = true;
     }
     ctsCupCount = count;
 }

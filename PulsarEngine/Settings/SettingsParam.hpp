@@ -10,7 +10,7 @@ namespace Settings {
 
 class Params {
 public:
-    static const int pulsarPageCount = 6;
+    static const int pulsarPageCount = 7;
     static const int userPageCount = 0;
     static const int pageCount = pulsarPageCount + userPageCount;
 
@@ -33,6 +33,7 @@ enum Type {
     SETTINGSTYPE_OTT,
     SETTINGSTYPE_KO,
     SETTINGSTYPE_MENU2,
+    SETTINGSTYPE_FREEROAM,
 };
 
 //If you want to add settings to your packs, they go in this enum, and GetUserSettingValue should be used to obtain the value of a given setting
@@ -48,17 +49,10 @@ enum MenuSettings {
     SETTINGMENU_RADIO_FASTMENUS = 0,
     SETTINGMENU_RADIO_LAYOUT = 1,
     SETTINGMENU_RADIO_DISABLEMUSIC = 2,
-    //SETTINGMENU_RADIO_MUSIC = 2,
+    SETTINGMENU_RADIO_MUSIC = 2,
     SETTINGMENU_RADIO_INPUT = 3,
     SETTINGMENU_RADIO_BRSAR = 4,
     SETTINGMENU_SCROLL_BOOT = 0 + 6
-};
-
-enum Menu2Settings {
-    SETTINGMENU2_RADIO_FLICKER = 0,
-    SETTINGMENU2_RADIO_BLUR = 1,
-    SETTINGMENU2_RADIO_FPS = 2,
-    SETTINGMENU2_RADIO_FOV = 3,
 };
 
 enum RaceSettings {
@@ -76,6 +70,7 @@ enum HostSettings {
     SETTINGHOST_RADIO_CC = 1,
     SETTINGHOST_ALLOW_MIIHEADS = 2,
     SETTINGHOST_ALLOW_REGS = 3,
+    SETTINGHOST_ITEM_RAIN = 4,
     SETTINGHOST_SCROLL_GP_RACES = 0 + 6
 };
 
@@ -92,7 +87,21 @@ enum KOSettings {
     SETTINGKO_FINAL = 1,
     SETTINGKO_KOPERRACE = 0 + 6,
     SETTINGKO_RACESPERKO = 1 + 6,
+};
 
+enum Menu2Settings {
+    SETTINGMENU2_RADIO_FLICKER = 0,
+    SETTINGMENU2_RADIO_BLUR = 1,
+    SETTINGMENU2_RADIO_FPS = 2,
+    SETTINGMENU2_RADIO_FOV = 3,
+};
+
+enum FreeRoamSettings {
+    SETTINGS_FREE_ROAM_CC = 0,
+    SETTINGS_FREE_ROAM_ITEM = 1,
+    SETTINGS_FREE_ROAM_AUTODRIVE = 2,
+    SETTINGS_FREE_ROAM_FALL_BOUNDARIES = 3,
+    SETTINGS_FREE_ROAM_LAP_COUNT = 4,
 };
 
 //MENU SETTINGS
@@ -102,8 +111,8 @@ enum MenuSettingFastMenus {
 };
 
 enum MenuSettingLayout {
-    MENUSETTING_LAYOUT_ALPHABETICAL = 0x0,
-    MENUSETTING_LAYOUT_DEFAULT = 0x1
+    MENUSETTING_LAYOUT_DEFAULT = 0x0,
+    MENUSETTING_LAYOUT_ALPHABETICAL = 0x1
 };
 
 enum MenuSettingMusic {
@@ -134,28 +143,6 @@ enum MenuSettingBoot {
     MENUSETTING_BOOT_L2,
     MENUSETTING_BOOT_L3,
     MENUSETTING_BOOT_L4
-};
-
-//MENU2 SETTINGS
-enum MenuSetting2Flicker {
-    MENUSETTING2_FLICKER_DISABLED = 0x0,
-    MENUSETTING2_FLICKER_ENABLED = 0x1
-};
-
-enum MenuSetting2Blur {
-    MENUSETTING2_BLUR_DISABLED = 0x0,
-    MENUSETTING2_BLUR_ENABLED = 0x1
-};
-
-enum MenuSetting2FPS {
-    MENUSETTING2_FPS_DISABLED = 0x0,
-    MENUSETTING2_FPS_ENABLED = 0x1
-};
-
-enum MenuSetting2FOV {
-    MENUSETTING2_FOV_DEFAULT,
-    MENUSETTING2_FOV_169,
-    MENUSETTING2_FOV_43
 };
 
 //RACE SETTINGS
@@ -278,6 +265,54 @@ enum KOSettingRacesPerKO {
     KOSETTING_RACESPERKO_4
 };
 //KOSETTINGS
+
+//MENU2 SETTINGS
+enum MenuSetting2Flicker {
+    MENUSETTING2_FLICKER_DISABLED = 0x0,
+    MENUSETTING2_FLICKER_ENABLED = 0x1
+};
+
+enum MenuSetting2Blur {
+    MENUSETTING2_BLUR_DISABLED = 0x0,
+    MENUSETTING2_BLUR_ENABLED = 0x1
+};
+
+enum MenuSetting2FPS {
+    MENUSETTING2_FPS_DISABLED = 0x0,
+    MENUSETTING2_FPS_ENABLED = 0x1
+};
+
+enum MenuSetting2FOV {
+    MENUSETTING2_FOV_DEFAULT,
+    MENUSETTING2_FOV_169,
+    MENUSETTING2_FOV_43
+};
+
+//Free Roam Settings
+enum FreeRoamCC {
+    FREEROAM_CC_150CC,
+    FREEROAM_CC_200CC,
+};
+
+enum FreeRoamItem {
+    FREEROAM_ITEM_MUSHROOMS,
+    FREEROAM_ITEM_FEATHERS
+};
+
+enum FreeRoamAutoDrive {
+    FREEROAM_AUTODRIVE_DISABLED,
+    FREEROAM_AUTODRIVE_ENABLED
+};
+
+enum FreeRoamFallBoundaries {
+    FREEROAM_FALL_BOUNDARIES_DISABLED,
+    FREEROAM_FALL_BOUNDARIES_ENABLED
+};
+
+enum FreeRoamLapCount {
+    FREEROAM_LAP_COUNT_DISABLED,
+    FREEROAM_LAP_COUNT_ENABLED,
+};
 
 }//namespace Pulsar
 

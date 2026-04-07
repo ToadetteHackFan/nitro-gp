@@ -1959,3 +1959,46 @@ GetPlayerCount__8RacedataFv = 0x8052dd30
 OpenAsync__3IOSFPCcQ23IOS4ModePFiPv_vPv = 0x801937e0
 IOCtlAsync__3IOSFiQ23IOS9IOCtlTypePviPviPFiPv_vPv = 0x80194158
 FPSPatchHook = 0x80001202
+
+sInstance__Q25RKNet11USERHandler = 0x809c2108
+saveFcAndCountryHookExit__Fv = 0x806513e4
+saveFcAndCountryInLiveHookExit__Fv = 0x8060a2b4
+displayFcAndCountryHookExit__Fv = 0x807f0050
+displayFcAndCountryInResultFillNameHookExit__Fv = 0x807f5300
+displayFcAndCountryInResultFillTimeHookExit__Fv = 0x807f5968
+MD5Digest__FPCUcUiPUc = 0x800f0e08
+MD5Digest = 0x800f0e08
+MD5Update = 0x800f0264
+PicturePaneExists__15LayoutUIControlFPCc = 0x8063e328
+
+ItemsOnMinimapSymbol1= 0x808d3900
+ItemsOnMinimapSymbol2= 0x808A9477
+ItemsOnMinimapSymbol3= 0x808A9482
+ItemsOnMinimapSymbol4= 0x808A9491
+ItemsOnMinimapSymbol5= 0x808AA007
+ItemsOnMinimapSymbol6= 0x8063D9C0
+ItemsOnMinimapSymbol7= 0x808AF7C0
+ItemsOnMinimapSymbol8= 0x808A5820
+ItemsOnMinimapSymbol9= 0x808AA7C8
+ItemsOnMinimapEnd= 0x807ea6e4
+ItemsOnMinimapEnd2= 0x807eacac
+ItemsOnMinimapEnd3= 0x807ea6e4
+ItemsOnMinimapEnd4= 0x807eacac
+REGION__Q26Pulsar4Race = 0x80000003
+U16_FREE_ROAM = 0x800003E0
+ItemRainEnabled = 0x800002E0
+WiiInput__Q26Pulsar4Race = 0x803457E2
+GCInput__Q26Pulsar4Race = 0x80348200
+ClassicInput__Q26Pulsar4Race = 0x80345842
+
+#Item Rain Symbols
+GetPosition__Q24Kart4LinkCFv = 0x8059020c
+DisappearDueToExcess__Q24Item3ObjFb = 0x807a6c14
+GetMovement__Q24Kart4LinkFv = 0x8059077c
+CreateItemDirect__Q24Item7ManagerF9ItemObjIdPC4Vec3P4Vec3Ui = 0x80799fbc
+ItemRainOnlineFixHook = 0x8000120A
+
+#Multiplayer Menu
+CreateExternalControl__Q25Pages11MultiPlayerFUi = 0x8084d260
+OnButtonClick__Q25Pages11MultiPlayerFR10PushButtonUi = 0x8084d4dc
+OnExternalButtonSelect__Q25Pages11MultiPlayerFR10PushButtonUi = 0x8084d6fc

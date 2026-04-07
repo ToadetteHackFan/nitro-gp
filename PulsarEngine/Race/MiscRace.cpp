@@ -95,12 +95,7 @@ kmCall(0x8085d460, DisplayTimesInsteadOfNames); //for WWs
 kmWrite32(0x807F4DB8, 0x38000001);
 
 //Draggable blue shells
-static void DraggableBlueShells(Item::PlayerObj& sub) {
-    if (Settings::Mgr::Get().GetSettingValue(Settings::SETTINGSTYPE_RACE, SETTINGRACE_RADIO_BLUES) == RACESETTING_DRAGGABLE_BLUES_DISABLED) {
-        sub.isNotDragged = true;
-    }
-}
-kmBranch(0x807ae8ac, DraggableBlueShells);
+kmWrite32(0x809C377C, 0x0);
 
 //Coloured Minimap
 kmWrite32(0x807DFC24, 0x60000000);

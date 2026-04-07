@@ -93,17 +93,6 @@ void ConditionalFastFallingWheels(float unk_float, Kart::WheelPhysicsHolder* whe
 }
 kmCall(0x805973b4, ConditionalFastFallingWheels);
 
-
-s32 HandleGroundFeatherCollision(const Kart::Collision& collision) {
-    if(System::sInstance->IsContext(PULSAR_FEATHER)) {
-        Item::Player& itemPlayer = Item::Manager::sInstance->players[collision.GetPlayerIdx()];
-        itemPlayer.inventory.currentItemCount += 1;
-        UseFeather(itemPlayer);
-    }
-    return -1;
-}
-kmWritePointer(0x808b54e8, HandleGroundFeatherCollision);
-
 static u32 ConditionalBlooperTimer(u32 timer) {
     if(System::sInstance->IsContext(PULSAR_FEATHER)) timer = 0;
     else timer--;

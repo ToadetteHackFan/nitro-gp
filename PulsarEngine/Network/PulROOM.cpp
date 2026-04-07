@@ -42,7 +42,8 @@ static void BeforeROOMSend(RKNet::PacketHolder<PulROOM>* packetHolder, PulROOM* 
             | (settings.GetSettingValue(Settings::SETTINGSTYPE_HOST, SETTINGHOST_ALLOW_MIIHEADS) ^ false) << PULSAR_MIIHEADS
             | settings.GetSettingValue(Settings::SETTINGSTYPE_HOST, SETTINGHOST_RADIO_HOSTWINS) << PULSAR_HAW
             | settings.GetSettingValue(Settings::SETTINGSTYPE_HOST, SETTINGHOST_ALLOW_REGS) << PULSAR_REGS
-            | (regOnly == HOSTSETTING_ALLOW_REGONLY_ENABLED) << PULSAR_REGSONLY;
+            | (regOnly == HOSTSETTING_ALLOW_REGONLY_ENABLED) << PULSAR_REGSONLY
+            | settings.GetSettingValue(Settings::SETTINGSTYPE_HOST, SETTINGHOST_ITEM_RAIN) << PULSAR_ITEM_RAIN;
 
         u8 raceCount;
         if (koSetting == KOSETTING_ENABLED) raceCount = 0xFE;

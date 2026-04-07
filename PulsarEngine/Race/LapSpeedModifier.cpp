@@ -13,6 +13,7 @@ namespace Race {
 RaceinfoPlayer* LoadCustomLapCount(RaceinfoPlayer* player, u8 id) {
     const u8 lapCount = KMP::Manager::sInstance->stgiSection->holdersArray[0]->raw->lapCount;
     Racedata::sInstance->racesScenario.settings.lapCount = lapCount;
+    if(U16_FREE_ROAM == 1) Racedata::sInstance->racesScenario.settings.lapCount = 255;
     return new(player) RaceinfoPlayer(id, lapCount);
 }
 kmCall(0x805328d4, LoadCustomLapCount);
@@ -70,8 +71,14 @@ kmCall(0x8058f670, ApplySpeedModifier);
 kmWrite32(0x805336B8, 0x60000000);
 kmWrite32(0x80534350, 0x60000000);
 kmWrite32(0x80534BBC, 0x60000000);
-kmWrite32(0x80723D10, 0x281D0009);
-kmWrite32(0x80723D40, 0x3BA00009);
+kmWrite32(0x80723D10, 0x281D00FF);
+kmWrite32(0x80723D40, 0x3BA000FF);
+
+//Max Lap Fix [Toadette Hack Fan]
+kmWrite32(0x805328C0, 0x280000FF);
+kmWrite32(0x805336c8, 0x280000FF);
+kmWrite32(0x80534bcc, 0x280000FF);
+kmWrite32(0x80534360, 0x280000FF);
 
 kmWrite24(0x808AAA0C, 'PUL'); //time_number -> time_numPUL
 }//namespace Race

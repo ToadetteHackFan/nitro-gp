@@ -43,7 +43,6 @@ public:
     UIControl* CreateControl(u32 id) override; //0x88
     void SetButtonHandlers(PushButton& pushButton) override; //80853aac 0x8C
     void OnBackPress(u32 hudSlotId);
-    void BeforeControlUpdate() override;
 
 private:
     void UpdateText();
