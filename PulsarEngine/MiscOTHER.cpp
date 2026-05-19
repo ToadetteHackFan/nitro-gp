@@ -67,10 +67,6 @@ kmWrite16(0x8064BCC2, 0x000010D7);
 //No Bullet Bill Cancel When Touching Bottom of Rainbow Road [Ro]
 kmWrite32(0x8059BE30, 0x60000000);
 
-//Skip Mode Selection Online [Ro]
-kmWrite32(0x8064be64, 0x3800008F); //Regional/CTWW -> VS Race
-kmWrite32(0x80609aac, 0x3800008B); //Back from Character Selection
-
 //Fix these fuckin boxes [Unnamed]
 asmFunc ItemRespawn() {
 loc_0x0:

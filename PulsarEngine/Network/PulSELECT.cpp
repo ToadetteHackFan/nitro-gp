@@ -15,14 +15,14 @@ namespace Network {
 
 void BeforeSELECTSend(RKNet::PacketHolder<PulSELECT>* packetHolder, PulSELECT* src, u32 len) { //len is sizeof(RKNet::SELECTPacket) by default
     const System* system = System::sInstance;
-    /*if (!system->IsContext(PULSAR_CT)) {
+    if (!system->IsContext(PULSAR_CT)) {
         const u8 vanillaWinning = CupsConfig::ConvertTrack_PulsarIdToRealId(static_cast<PulsarId>(src->pulWinningTrack));
         src->winningCourse = vanillaWinning;
         const u8 vanillaVote = CupsConfig::ConvertTrack_PulsarIdToRealId(static_cast<PulsarId>(src->pulVote));
         src->playersData[0].courseVote = vanillaVote;
         src->playersData[1].courseVote = vanillaVote;
     }
-    else*/ len = sizeof(PulSELECT);
+    else len = sizeof(PulSELECT);
     packetHolder->Copy(src, len);
 }
 kmCall(0x80661040, BeforeSELECTSend);
@@ -102,7 +102,22 @@ void ExpSELECTHandler::DecideTrack(ExpSELECTHandler& self) {
 
             PulsarId aidVote = static_cast<PulsarId>(aid == sub.localAid ? self.toSendPacket.pulVote : self.receivedPackets[aid].pulVote);
             if (aidVote == 0xFF) {
-                aidVote = cupsConfig->RandomizeTrack();
+                if (isCT) aidVote = cupsConfig->RandomizeTrack();
+                else {
+                    const bool isVS = (mode == RKNet::ONLINEMODE_PRIVATE_VS || mode == RKNet::ONLINEMODE_PUBLIC_VS);
+                    const u32 trackCount = isVS ? 32 : 10;
+                    u32 next = random.NextLimited(trackCount);
+                    if(!isVS) next = random.NextLimited(trackCount + 0x20);
+                    const CourseId prev = Racedata::sInstance->racesScenario.settings.courseId;
+                    if (next == prev) { //prevent repeats
+                        const u32 offsetTrick = trackCount - 1;
+                        const u32 offset = random.NextLimited(trackCount - 1);
+                        next = offset + next + 1;
+                        if (offsetTrick < next) next -= offsetTrick - 1;
+                    }
+                    if (isVS) next += trackCount; //add 32 to match battle ids
+                    aidVote = static_cast<PulsarId>(next);
+                }
             }
             votes[aid] = aidVote;
             if (isCT) {
@@ -125,10 +140,10 @@ void ExpSELECTHandler::DecideTrack(ExpSELECTHandler& self) {
         self.toSendPacket.winningVoterAid = winner;
         self.toSendPacket.pulWinningTrack = vote;
         self.toSendPacket.variantIdx = cupsConfig->RandomizeVariant(vote);
-        /*if (isCT) {
+        if (isCT) {
             system->netMgr.lastTracks[system->netMgr.curBlockingArrayIdx] = vote;
             system->netMgr.curBlockingArrayIdx = (system->netMgr.curBlockingArrayIdx + 1) % system->GetInfo().GetTrackBlocking();
-        }*/
+        }
     }
 }
 kmCall(0x80661490, ExpSELECTHandler::DecideTrack);

@@ -21,7 +21,6 @@ public:
     void AfterControlUpdate() override;
     void OnResume() override;
     void OnMessageBoxClick(Pages::MessageBoxTransparent* msgPage);
-    void OnActivate() override;
 
 private:
     void ExtOnButtonSelect(PushButton& button, u32 hudSlotId);

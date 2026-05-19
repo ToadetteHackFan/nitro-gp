@@ -28,9 +28,9 @@ public:
 private:
     void OnModeButtonSelect(PushButton& modeButton, u32 hudSlotId); //8064c718
     void OnModeButtonClick(PushButton& PushButton, u32 r5);
-    PushButton ottButton;
+    PushButton itemRainButton;
     u32 lastClickedButton;
-    static const u32 ottButtonId = 4;
+    static const u32 itemRainButtonId = 4;
 };
 }//namespace UI
 }//namespace Pulsar

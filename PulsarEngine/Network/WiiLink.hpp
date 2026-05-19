@@ -8,7 +8,7 @@
 
 #  ifndef WWFC_DOMAIN
 
-#      define WWFC_DOMAIN "ikwfc.xyz"
+#      define WWFC_DOMAIN "mk.acidpaws.cam"
 
 #  endif
 

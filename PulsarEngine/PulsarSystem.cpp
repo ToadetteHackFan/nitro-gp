@@ -185,21 +185,6 @@ void System::UpdateContext() {
 
     this->context = newContextValue | preserved;
 
-
-    const u32 region = this->netMgr.region;
-    if (RKNet::Controller::sInstance->roomType == RKNet::ROOMTYPE_VS_REGIONAL || RKNet::Controller::sInstance->roomType == RKNet::ROOMTYPE_JOINING_REGIONAL) {
-        switch (region) {
-            case 0x338: 
-                this->context |= (1 << PULSAR_CT);
-                sInstance->context &= ~(1 << PULSAR_MODE_OTT);
-                break;
-                
-            case 0x339: 
-                this->context |= (1 << PULSAR_CT);
-                this->context |= (1 << PULSAR_MODE_OTT);
-                break;
-        }
-    }
     //Create temp instances if needed:
     /*
     if(sceneId == SCENE_ID_RACE) {
@@ -222,7 +207,7 @@ void System::UpdateContext() {
 s32 System::OnSceneEnter(Random& random) {
     System* self = System::sInstance;
     self->UpdateContext();
-    //if(self->IsContext(PULSAR_MODE_OTT)) OTT::AddGhostToVS();
+    if(self->IsContext(PULSAR_MODE_OTT)) OTT::AddGhostToVS();
     if(self->IsContext(PULSAR_HAW) && self->IsContext(PULSAR_MODE_KO) && GameScene::GetCurrent()->id == SCENE_ID_RACE && SectionMgr::sInstance->sectionParams->onlineParams.currentRaceNumber > 0) {
         KO::HAWChangeData();
     }
@@ -279,13 +264,17 @@ kmRegionWrite32(0x8088247D, 0x6B616E6A, 'K');
 kmRegionWrite32(0x80882481, 0x695F666F, 'K');
 kmRegionWrite16(0x80882485, 0x00006E74, 'K');
 
+bool isOnline;
 void SetItemRainGameMode() {
     System::sInstance->UpdateContext();
     const SectionId sectionMode = SectionMgr::sInstance->curSection->sectionId;
-    if(sectionMode >= 0x3F && sectionMode <= 0x43) ItemRainEnabled = false;
+    if(sectionMode >= 0x3F && sectionMode <= 0x43) isOnline = false, System::sInstance->netMgr.region = 824, ItemRainEnabled = false;
     if(RKNet::Controller::sInstance->roomType == RKNet::ROOMTYPE_NONE) return;
+    if(sectionMode >= 0x55 && sectionMode <= 0x75) isOnline = true;
+    if(!isOnline) return;
     ItemRainEnabled = false;
     if(System::sInstance->IsContext(PULSAR_ITEM_RAIN) && (RKNet::Controller::sInstance->roomType == RKNet::ROOMTYPE_FROOM_HOST || RKNet::Controller::sInstance->roomType == RKNet::ROOMTYPE_FROOM_NONHOST)) ItemRainEnabled = true;
+    if(System::sInstance->netMgr.region == 825 && (RKNet::Controller::sInstance->roomType == RKNet::ROOMTYPE_VS_REGIONAL || RKNet::Controller::sInstance->roomType == RKNet::ROOMTYPE_VS_WW)) ItemRainEnabled = true;
 }
 static PageLoadHook ItemRainUpdater(SetItemRainGameMode);
 

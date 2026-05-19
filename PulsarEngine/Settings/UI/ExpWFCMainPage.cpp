@@ -2,6 +2,7 @@
 #include <MarioKartWii/RKSYS/RKSYSMgr.hpp>
 #include <Settings/UI/ExpWFCMainPage.hpp>
 #include <UI/UI.hpp>
+#include <PulsarSystem.hpp>
 
 namespace Pulsar {
 namespace UI {
@@ -22,7 +23,7 @@ void ExpWFCMain::OnInit() {
     WFCMainMenu::OnInit();
     this->AddControl(5, settingsButton, 0);
 
-    this->settingsButton.Load(UI::buttonFolder, "PULiMenuSingleTop", "Settings", 1, 0, false);
+    this->settingsButton.Load(UI::buttonFolder, "Settings1P", "Settings", 1, 0, false);
     this->settingsButton.buttonId = 5;
     this->settingsButton.SetOnClickHandler(this->onSettingsClick, 0);
     this->settingsButton.SetOnSelectHandler(this->onButtonSelectHandler);
@@ -54,14 +55,38 @@ ExpWFCModeSel::ExpWFCModeSel() : lastClickedButton(0) {
     this->onModeButtonClickHandler.ptmf = &ExpWFCModeSel::OnModeButtonClick;
 }
 
+void ExpWFCModeSel::InitOTTButton(ExpWFCModeSel& self) {
+    self.InitControlGroup(6);
+
+    self.AddControl(5, self.itemRainButton, 0);
+    self.itemRainButton.Load(UI::buttonFolder, "PULOTTButton", "PULOTTButton", 1, 0, 0);
+    self.itemRainButton.buttonId = itemRainButtonId;
+    self.itemRainButton.SetMessage(BMG_TT_MODE_BOTTOM_SINGLE - 0x100 + 2);
+    self.itemRainButton.SetOnClickHandler(self.onModeButtonClickHandler, 0);
+    self.itemRainButton.SetOnSelectHandler(self.onButtonSelectHandler);
+
+
+
+    Text::Info info;
+    RKSYS::Mgr* rksysMgr = RKSYS::Mgr::sInstance;
+    u32 vr = 0;
+    if(rksysMgr->curLicenseId >= 0) {
+        RKSYS::LicenseMgr& license = rksysMgr->licenses[rksysMgr->curLicenseId];
+        vr = license.vr.points;
+    }
+    info.intToPass[0] = vr;
+    self.itemRainButton.SetTextBoxMessage("go", BMG_RATING, &info);
+}
+kmCall(0x8064c294, ExpWFCModeSel::InitOTTButton);
+
 void ExpWFCModeSel::OnActivatePatch() {
     register ExpWFCModeSel* page;
     asm(mr page, r29;);
     register Pages::GlobeSearch* search;
     asm(mr search, r30;);
     const bool isHidden = search->searchType == 1 ? false : true; //make the button visible if continental was clicked
-    page->ottButton.isHidden = isHidden;
-    page->ottButton.manipulator.inaccessible = isHidden;
+    page->itemRainButton.isHidden = isHidden;
+    page->itemRainButton.manipulator.inaccessible = isHidden;
     page->nextPage = PAGE_NONE;
     PushButton* button = &page->vsButton;
     u32 bmgId = UI::BMG_RACE_WITH11P;
@@ -70,10 +95,10 @@ void ExpWFCModeSel::OnActivatePatch() {
             button = &page->battleButton;
             bmgId = UI::BMG_BATTLE_WITH6P;
             break;
-        case ottButtonId:
+        case itemRainButtonId:
             if(!isHidden) {
-                button = &page->ottButton;
-                bmgId = UI::BMG_OTT_WW_BOTTOM;
+                button = &page->itemRainButton;
+                bmgId = UI::BMG_TT_MODE_BOTTOM_SINGLE + 5;
             }
             break;
     }
@@ -83,8 +108,8 @@ void ExpWFCModeSel::OnActivatePatch() {
 kmCall(0x8064c5f0, ExpWFCModeSel::OnActivatePatch);
 
 void ExpWFCModeSel::OnModeButtonSelect(PushButton& modeButton, u32 hudSlotId) {
-    if(modeButton.buttonId == ottButtonId) {
-        this->bottomText.SetMessage(BMG_OTT_WW_BOTTOM);
+    if(modeButton.buttonId == itemRainButtonId) {
+        this->bottomText.SetMessage(BMG_TT_MODE_BOTTOM_SINGLE + 5);
     }
     else WFCModeSelect::OnModeButtonSelect(modeButton, hudSlotId);
 }
@@ -92,12 +117,12 @@ void ExpWFCModeSel::OnModeButtonSelect(PushButton& modeButton, u32 hudSlotId) {
 void ExpWFCModeSel::OnModeButtonClick(PushButton& modeButton, u32 hudSlotId) {
     const u32 prevId = modeButton.buttonId;
     this->lastClickedButton = prevId;
-    bool isOTT = false;
-    if(prevId == ottButtonId) {
-        isOTT = true;
-        modeButton.buttonId = 1;
+    if(prevId == itemRainButtonId) {
+        System::sInstance->netMgr.region = 825;
     }
-    System::sInstance->netMgr.ownStatusData = isOTT;
+    else {
+        System::sInstance->netMgr.region = 824;
+    }
     WFCModeSelect::OnModeButtonClick(modeButton, hudSlotId);
     modeButton.buttonId = prevId;
 }

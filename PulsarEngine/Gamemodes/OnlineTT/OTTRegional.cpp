@@ -9,7 +9,7 @@
 
 namespace Pulsar {
 namespace Network {
-
+/*
 static const ut::Color colors[5] = { 0xffff00ff, 0x00ff00ff, 0xffa000ff, 0x00ffffff, 0x00a0ffff };
 
 ut::Color GetFriendColor(u32 friendIdx) {
@@ -217,7 +217,7 @@ void GlobeSearchTopMsg(CtrlMenuPageTitleText& title, u32 bmgId, Text::Info* info
     if(System::sInstance->netMgr.ownStatusData == true) bmgId = UI::BMG_OTT_TITLE_TEXT;
     title.SetMessage(bmgId, info);
 }
-kmCall(0x80608658, GlobeSearchTopMsg);
+kmCall(0x80608658, GlobeSearchTopMsg);*/
 
 }//namespace Network
 }//namespace Pulsar
